@@ -35,9 +35,9 @@ The application uses ASP.NET Core MVC on .NET, PostgreSQL through Supabase, and 
 | [#4](../../issues/4) | URL import timed out before IPv4 fallback | Networking | Fixed |
 | [#5](../../issues/5) | SEEK page chrome was extracted instead of job details | URL importer | Fixed |
 | [#6](../../issues/6) | Evidence text displayed corrupted punctuation | Encoding/UI | Fixed |
-| [#7](../../issues/7) | Indeed capture selected the page heading instead of the focused job | Browser extension | Fixed |
-| [#8](../../issues/8) | LinkedIn focused job details are missed | Browser extension | Open |
-| [#9](../../issues/9) | Mobile navigation covers content and cannot be dismissed reliably | Responsive UI | Open |
+| [#7](../../issues/7) | LinkedIn focused job details are missed | Browser extension | Open |
+| [#8](../../issues/8) | Mobile navigation covers content and cannot be dismissed reliably | Responsive UI | Open |
+| [#9](../../issues/9) | Indeed capture selected the page heading instead of the focused job | Browser extension | Fixed |
 
 ## Test approach
 
