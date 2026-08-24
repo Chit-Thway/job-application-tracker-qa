@@ -1,0 +1,118 @@
+name: Bug report
+description: Document a reproducible defect found during testing
+title: "[Bug] "
+labels:
+  - bug
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for documenting a reproducible defect. Remove or redact all personal information, credentials, and private source references before submitting.
+
+  - type: input
+    id: area
+    attributes:
+      label: Affected area
+      description: The feature, page, integration, or device affected.
+      placeholder: Browser extension — LinkedIn capture
+    validations:
+      required: true
+
+  - type: textarea
+    id: summary
+    attributes:
+      label: Summary
+      description: Describe the defect and its user impact in one concise paragraph.
+    validations:
+      required: true
+
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      description: Include application version, browser, operating system, viewport, and relevant website.
+      placeholder: |
+        Application: Local development build
+        Browser: Chrome
+        Operating system: Windows
+        Viewport: 390 × 844
+    validations:
+      required: true
+
+  - type: textarea
+    id: preconditions
+    attributes:
+      label: Preconditions
+      description: State the required account, data, page, or configuration.
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      description: Provide a numbered sequence that another tester can follow.
+      placeholder: |
+        1. Sign in.
+        2. Open...
+        3. Select...
+        4. Observe...
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected result
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual result
+    validations:
+      required: true
+
+  - type: dropdown
+    id: severity
+    attributes:
+      label: Severity
+      options:
+        - Critical
+        - High
+        - Medium
+        - Low
+    validations:
+      required: true
+
+  - type: dropdown
+    id: priority
+    attributes:
+      label: Priority
+      options:
+        - High
+        - Medium
+        - Low
+    validations:
+      required: true
+
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Sanitized evidence
+      description: Attach a redacted screenshot/video or include an exact error message or minimal text fixture.
+
+  - type: textarea
+    id: regression
+    attributes:
+      label: Acceptance and regression checks
+      description: Define what must pass before the issue can be closed.
+
+  - type: checkboxes
+    id: privacy
+    attributes:
+      label: Public-data check
+      options:
+        - label: I removed credentials, personal information, private source code, and inaccessible private links.
+          required: true
