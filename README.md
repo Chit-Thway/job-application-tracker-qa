@@ -39,6 +39,11 @@ The application uses ASP.NET Core MVC on .NET, PostgreSQL through Supabase, and 
 | [#8](../../issues/8) | Mobile navigation covers content and cannot be dismissed reliably | Responsive UI | Open |
 | [#9](../../issues/9) | Indeed capture selected the page heading instead of the focused job | Browser extension | Fixed |
 
+## Supporting documentation
+
+- [QA strategy](docs/QA-STRATEGY.md) — scope, environments, test techniques, severity model, entry/exit criteria, regression gate, and evidence policy.
+- [Structured bug-report form](../../issues/new?template=bug-report.yml) — reusable public issue template with required reproduction and privacy checks.
+
 ## Test approach
 
 The reports demonstrate several complementary QA techniques:
