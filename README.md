@@ -1,6 +1,14 @@
 # Job Application Tracker — QA Portfolio
 
-A public quality-assurance portfolio documenting real defects discovered while manually testing a private .NET job-application tracking system.
+A public quality-assurance portfolio documenting real defects discovered while manually testing a live .NET job-application tracking system.
+
+## Live project
+
+- **Application:** [Open Job Application Tracker](https://chit-thway-job-tracker-b9bpfvb5csccb5hb.australiaeast-01.azurewebsites.net/)
+- **Public read-only demo:** [Explore the synthetic dashboard](https://chit-thway-job-tracker-b9bpfvb5csccb5hb.australiaeast-01.azurewebsites.net/demo)
+- **Extension privacy information:** [Review the browser-extension privacy page](https://chit-thway-job-tracker-b9bpfvb5csccb5hb.australiaeast-01.azurewebsites.net/extension/privacy)
+
+The public demo uses fictional in-memory records and does not expose authenticated user data. The private tracker requires an invited, verified account.
 
 > The application source repository is intentionally private. This repository contains sanitized defect reports, reproducible test evidence, resolution summaries, and regression results without exposing credentials, personal data, proprietary source code, or private commit history.
 
