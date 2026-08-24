@@ -29,8 +29,8 @@ The application uses ASP.NET Core MVC on .NET, PostgreSQL through Supabase, and 
 
 | Status | Count | Meaning |
 | --- | ---: | --- |
-| Fixed and verified | 7 | The defect was corrected and regression-tested. |
-| Open | 2 | The defect has been reproduced and documented; implementation is still in progress. |
+| Fixed and verified | 8 | The defect was corrected, regression-tested, and accepted. |
+| Open | 1 | The fix is implemented; public extension release and manual verification remain. |
 | Total documented defects | 9 | All reports originated from hands-on acceptance or exploratory testing. |
 
 ## Defect register
@@ -43,8 +43,8 @@ The application uses ASP.NET Core MVC on .NET, PostgreSQL through Supabase, and 
 | [#4](../../issues/4) | URL import timed out before IPv4 fallback | Networking | Fixed |
 | [#5](../../issues/5) | SEEK page chrome was extracted instead of job details | URL importer | Fixed |
 | [#6](../../issues/6) | Evidence text displayed corrupted punctuation | Encoding/UI | Fixed |
-| [#7](../../issues/7) | LinkedIn focused job details are missed | Browser extension | Open |
-| [#8](../../issues/8) | Mobile navigation covers content and cannot be dismissed reliably | Responsive UI | Open |
+| [#7](../../issues/7) | LinkedIn focused job details are missed | Browser extension | Release verification pending |
+| [#8](../../issues/8) | Mobile navigation covers content and cannot be dismissed reliably | Responsive UI | Fixed |
 | [#9](../../issues/9) | Indeed capture selected the page heading instead of the focused job | Browser extension | Fixed |
 
 ## Supporting documentation
