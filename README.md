@@ -17,7 +17,7 @@ Each bug folder contains one focused report with:
 - expected and actual results;
 - severity, priority, and user impact;
 - resolution and regression evidence;
-- screenshots when suitable sanitized evidence is available.
+- an original sanitized screenshot or clearly labelled reconstructed visual when it materially helps explain the defect.
 
 ## Project links
 
