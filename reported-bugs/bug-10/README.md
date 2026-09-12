@@ -2,112 +2,60 @@
 
 [← Back to the reported bugs index](../README.md)
 
-| Field | Value |
+| Status | Severity | Priority | Reported | Area |
+| --- | --- | --- | --- | --- |
+| Fixed | Medium | High | 24 August 2026 | Company matching |
+
+## What happened
+
+Confirming a second extracted application could create another company record for the same employer when its extracted location differed from the existing record.
+
+## How to reproduce
+
+**Environment:** Chrome on Windows; verified account; extracted-application review workflow.
+
+1. Confirm an imported application for a company named `Accenture`.
+2. Import a second Accenture role whose extracted location differs.
+3. Confirm it without being offered the existing company.
+4. Compare the **Applications** and **Companies** pages.
+
+| Expected | Actual before the fix |
 | --- | --- |
-| Status | Fixed |
-| Severity | Medium |
-| Priority | High |
-| Date reported | 24 August 2026 |
-| Area | Company matching |
+| Detect a credible owner-scoped name match and let the user explicitly reuse the existing company or create a separate one. Never merge automatically. | Both applications showed Accenture, but two company records were created and separated only by location. |
 
-## Summary
+## Visuals
 
-Creating applications through extraction review can produce duplicate owner-scoped company records when the extracted employer has the same name as an existing company but a different extracted location.
+These are original sanitized screenshots captured during manual testing. Select either image to open it at full size.
 
-## Affected area
+<table>
+<tr>
+<td width="50%"><a href="visual/applications-showing-two-accenture-roles.png"><img src="visual/applications-showing-two-accenture-roles.png" alt="Applications page showing two Accenture roles"></a></td>
+<td width="50%"><a href="visual/companies-showing-duplicate-accenture-cards.png"><img src="visual/companies-showing-duplicate-accenture-cards.png" alt="Companies page showing duplicate Accenture cards"></a></td>
+</tr>
+<tr>
+<td>Two saved applications show the same employer.</td>
+<td>The Companies page contains two Accenture cards.</td>
+</tr>
+</table>
 
-Application extraction review, company matching, and company creation.
+## Why it mattered
 
-## Environment
+Duplicate company records fragmented application history, contacts, notes, and company context.
 
-- Application: [Live Job Application Tracker](https://myjobtracker.com.au/)
-- Date observed: 24 August 2026
-- Browser: Chrome on Windows
-- Workflow: Extract job advertisement → review draft → confirm application
+**Assessment:** Medium severity because applications remained usable; High priority because each new import could deepen persistent data duplication.
 
-## Preconditions
+## Resolution and verification
 
-1. Sign in with a verified test account.
-2. Create or confirm an application associated with a company named `Accenture`.
-3. Import and review a second Accenture role whose extracted location differs from the first company record.
-
-## Steps to reproduce
-
-1. Import the first Accenture job advertisement.
-2. Review and confirm the extracted application and company.
-3. Import a second Accenture job advertisement with a different extracted location.
-4. Review and confirm it without being offered the existing Accenture company.
-5. Open **Applications** and verify both applications.
-6. Open **Companies** and inspect the company cards.
-
-## Expected result
-
-During review, the application compares the extracted company name with companies owned by the signed-in user.
-
-When a credible same-company candidate exists, the page shows a green **Same company detected** notice and lets the user explicitly choose between:
-
-- reusing the existing company; or
-- keeping/creating the extracted company as a separate record.
-
-The application must never merge automatically.
-
-## Actual result
-
-Both applications display the employer as Accenture, but confirmation creates two separate owner-scoped Accenture company rows differentiated only by their extracted locations. The Companies page then displays duplicate Accenture cards.
-
-## Impact
-
-Duplicate companies fragment the user’s application history and company context. Contacts, notes, and later applications can become distributed across records that represent the same employer.
-
-- **Severity:** Medium
-- **Priority:** High
-
-## Observed evidence
-
-The Applications page shows two separate saved applications associated with Accenture:
-
-![Applications showing two Accenture roles](https://raw.githubusercontent.com/Chit-Thway/job-application-tracker-qa/main/evidence/issue-10-duplicate-companies/applications-showing-two-accenture-roles.png)
-
-The Companies page shows two separate Accenture cards differentiated by extracted location:
-
-![Companies showing duplicate Accenture cards](https://raw.githubusercontent.com/Chit-Thway/job-application-tracker-qa/main/evidence/issue-10-duplicate-companies/companies-showing-duplicate-accenture-cards.png)
-
-## Matching requirements
-
-Candidate detection must:
-
-- remain strictly owner-scoped;
-- normalize harmless differences in case, spacing, and punctuation;
-- treat an exact normalized name as a strong candidate;
-- allow one normalized name to contain the other only when the shorter value is a meaningful company-name phrase;
-- avoid weak substring matches such as short tokens or incidental word fragments;
-- show the candidate and decision to the user before confirmation;
-- preserve both records when the user deliberately chooses to create the extracted company;
-- never merge, rename, or delete companies automatically.
-
-## Acceptance and regression checks
-
-- An owner with existing `Accenture` sees a same-company candidate while reviewing another Accenture role with a different location.
-- The user can explicitly reuse the existing company.
-- The user can explicitly keep/create the extracted company.
-- Equivalent casing, punctuation, and spacing remain detectable.
-- Meaningful long-form/short-form company-name variants are detectable.
-- Weak substring examples do not produce a candidate.
-- A company belonging to another owner is never suggested or reused.
-- Manual entry and existing exact company selection continue to work.
-- Deterministic unit and integration regression tests cover candidate detection, both user decisions, and owner isolation.
-- The full formatting, Release build, automated test, and publish gate passes.
-- Manual acceptance is completed before closing.
-
-## Resolution
-
-**Status: Fixed.**
-
-The extraction-review workflow now treats credible owner-scoped company-name matches as an explicit user decision: reuse the detected existing company or keep/create the extracted company. It does not merge records automatically or inspect another owner’s companies.
+- Added owner-scoped company-name comparison during extraction review.
+- Suggested exact normalized and safe meaningful phrase matches.
+- Required an explicit choice to reuse the existing company or create the extracted company.
+- Never merged, renamed, or deleted companies automatically.
+- Prevented matches against another owner’s data and weak substrings such as `Air` versus `Air Liquide`.
+- Added deterministic coverage for both user choices, normalization, weak-match rejection, and owner isolation.
 
 ## Traceability
 
 - [Public GitHub issue #10](https://github.com/Chit-Thway/job-application-tracker-qa/issues/10)
 - [Live Job Application Tracker](https://myjobtracker.com.au/)
 
-This report is sanitized for public portfolio use and contains no credentials, private source code, or personal job-search data.
+This public report is sanitized and contains no credentials, private source code, or personal job-search data.

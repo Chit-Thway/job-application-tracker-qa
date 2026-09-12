@@ -2,82 +2,65 @@
 
 [← Back to the reported bugs index](../README.md)
 
-| Field | Value |
-| --- | --- |
-| Status | Fixed |
-| Severity | Low |
-| Priority | Medium |
-| Date reported | 24 August 2026 |
-| Area | Encoding / extraction UI |
+| Status | Severity | Priority | Reported | Area |
+| --- | --- | --- | --- | --- |
+| Fixed | Low | Medium | 24 August 2026 | Encoding / extraction UI |
 
-## Summary
+## What happened
 
-Evidence messages in the extraction review displayed mojibake sequences such as `â€”` and `â€™` instead of normal punctuation.
+A human-readable extraction message contained mojibake sequences because punctuation had been stored as already-corrupted text.
 
-## Affected area
+## How to reproduce
 
-Human-readable extraction evidence and source-file encoding.
-
-## Environment
-
-- Application: Job Application Tracker
-- Browser: Chrome on Windows
-- Page: Import review draft
-
-## Preconditions
+**Environment:** Chrome on Windows; extraction review page; draft containing labelled fetched-page metadata.
 
 1. Import a supported job advertisement.
 2. Open the generated review draft.
-3. Display evidence beneath an extracted field.
+3. Read the evidence sentence beneath an extracted field.
+4. Compare the punctuation with ordinary UTF-8 text.
 
-## Steps to reproduce
+| Expected | Actual before the fix |
+| --- | --- |
+| Display readable punctuation such as an em dash and typographic apostrophe. | Displayed sequences such as `â€”` and `â€™`. |
 
-1. Read the evidence sentence beneath a field populated by fetched-page labelled metadata.
-2. Observe the punctuation between confidence and evidence details.
+## Visual
 
-## Expected result
+![Reconstructed comparison for Bug 06](visual/reconstructed-encoding-comparison.svg)
 
-Evidence is readable, for example:
+*Reconstructed from a sanitized deterministic scenario. It illustrates the confirmed behaviour and is not presented as an original production screenshot.*
 
-```text
-High confidence — read from the page’s labelled job details.
-```
-
-## Actual result
-
-The text contains damaged sequences:
+<details>
+<summary>View the sanitized scenario shown in the visual</summary>
 
 ```text
-High confidence â€” read from the pageâ€™s labelled job details.
+Expected message:
+High confidence — read from the
+page’s labelled job details.
+
+Rendered before the fix:
+High confidence â€” read from the
+pageâ€™s labelled job details.
 ```
 
-## Impact
+</details>
 
-The application looks broken or unprofessional and the evidence is harder to read, even though the underlying extracted values are correct.
+## Why it mattered
 
-- **Severity:** Low
-- **Priority:** Medium
+The extraction values were correct, but the broken message reduced readability and made the interface look unreliable.
 
-## Root cause
+**Assessment:** Low severity because no stored job data was corrupted; Medium priority because the defect was immediately visible in a review workflow.
 
-UTF-8 punctuation had previously been saved into source as already-corrupted Windows-1252/UTF-8 text. Razor correctly rendered the damaged string it received.
+## Resolution and verification
 
-## Resolution
-
-**Status: Fixed and verified.**
-
-The damaged tracked string was replaced with valid UTF-8 punctuation, and the repository was scanned for common mojibake markers.
-
-## Regression coverage
-
-- Exact evidence sentence assertion.
-- Scan for common mojibake markers.
-- Existing fetched-page extraction behaviour preserved.
-- Formatting, zero-warning Release build, 94 automated tests, and Release publish passed.
+- Replaced the damaged tracked string with valid UTF-8 punctuation.
+- Added an exact sentence assertion.
+- Scanned tracked source for common mojibake markers.
+- Preserved fetched-page extraction behaviour.
+- Passed formatting, the zero-warning Release build, 94 automated tests, and Release publish.
 
 ## Traceability
 
 - [Public GitHub issue #6](https://github.com/Chit-Thway/job-application-tracker-qa/issues/6)
 - [Live Job Application Tracker](https://myjobtracker.com.au/)
 
-This report is sanitized for public portfolio use and contains no credentials, private source code, or personal job-search data.
+This public report is sanitized and contains no credentials, private source code, personal job-search data, or complete third-party advertisements.

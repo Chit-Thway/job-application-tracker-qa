@@ -2,85 +2,65 @@
 
 [← Back to the reported bugs index](../README.md)
 
-| Field | Value |
+| Status | Severity | Priority | Reported | Area |
+| --- | --- | --- | --- | --- |
+| Fixed | Medium | High | 24 August 2026 | LinkedIn browser extension |
+
+## What happened
+
+On LinkedIn’s split job-search layout, generic page extraction missed the job displayed in the focused right-hand detail pane.
+
+## How to reproduce
+
+**Environment:** Chrome on Windows; signed-in LinkedIn Jobs search; explicit extension click and active-tab permission only.
+
+1. Open a LinkedIn Jobs search-results page.
+2. Select a job so its details appear in the right-hand pane.
+3. Open the tracker extension and select **Capture and review**.
+4. Compare the generated draft with the focused job.
+
+| Expected | Actual before the fix |
 | --- | --- |
-| Status | Fixed |
-| Severity | Medium |
-| Priority | High |
-| Date reported | 24 August 2026 |
-| Area | LinkedIn browser extension |
+| Capture the focused role, employer, location, work type, description, and current job reference without reading a different left-side result. | Captured only the source site while the important job fields remained blank. |
 
-## Summary
+## Visual
 
-On signed-in LinkedIn job-search pages, the browser extension captures the source site but misses the job displayed in LinkedIn’s focused right-hand detail pane.
+![Reconstructed comparison for Bug 07](visual/reconstructed-linkedin-focused-pane-comparison.svg)
 
-## Affected area
+*Reconstructed from a sanitized deterministic scenario. It illustrates the confirmed behaviour and is not presented as an original production screenshot.*
 
-Chrome extension capture for LinkedIn search results.
+<details>
+<summary>View the sanitized scenario shown in the visual</summary>
 
-## Environment
+```text
+LinkedIn Jobs split layout
+Left: multiple result cards
+Right: selected job details
+Focused title: Graduate Analyst
+Employer: Example Services
+Location: Sydney NSW
+Capture triggered by explicit click
+```
 
-- Extension: Job Application Tracker companion extension
-- Browser: Chrome on Windows
-- Tracker: [Live Job Application Tracker](https://myjobtracker.com.au/)
-- Website: LinkedIn Jobs split search-results layout
-- Permission model: Explicit user click and active tab only
+</details>
 
-## Preconditions
+## Why it mattered
 
-1. Sign in to LinkedIn.
-2. Open a Jobs search-results page.
-3. Select a job so its full details appear in the right-hand pane.
-4. Open the tracker extension.
+LinkedIn users lost the one-click benefit and had to re-enter most of the selected job manually.
 
-## Steps to reproduce
+**Assessment:** Medium severity because manual entry remained possible; High priority because a major supported job board’s primary capture path failed.
 
-1. Select **Capture and review**.
-2. Inspect the generated draft.
-3. Compare the draft with the focused job-detail pane.
+## Resolution and verification
 
-## Expected result
-
-The draft contains the focused job’s role title, employer, Australian location, work type when present, full description, and current job reference. It must not read a different result from the left list.
-
-## Actual result
-
-Only the source site is captured. Title, employer, location, work type, and description are blank.
-
-## Impact
-
-LinkedIn users cannot benefit from one-click capture and must copy or re-enter most job information manually.
-
-- **Severity:** Medium
-- **Priority:** High
-
-## Probable cause
-
-The selected job is rendered inside LinkedIn’s dedicated focused-detail container, which is not covered by the current generic selectors.
-
-## Acceptance and regression checks
-
-- Anchor extraction to the focused LinkedIn job-detail container.
-- Never select a title or employer from an unselected left-side result card.
-- Capture the current job reference when available.
-- Add a deterministic LinkedIn-like fixture.
-- Preserve SEEK, Indeed, generic-page, and Schema.org behaviour.
-- Keep explicit-click/no-remote-request permissions unchanged.
-- Complete manual retest and the full quality gate before closing.
-
-## Resolution
-
-The extension now anchors extraction to LinkedIn’s focused job-detail container instead of the left results list. Automated coverage verifies the focused title, employer, location, work type, description, and current job reference while preserving the explicit-click permission model.
-
-The implementation is merged into the website repository and the complete quality gate passed as part of a combined fix release: 104 unit tests, 96 integration tests, 3 browser journeys, formatting, dependency audit, zero-warning Release build, JavaScript checks, and publish.
-
-## Status
-
-**Fixed and verified.** The focused-pane capture fix is merged into the current release line. The current extension source is version `1.0.4`, and the LinkedIn workflow has been accepted after regression testing.
+- Anchored extraction to LinkedIn’s focused job-detail container.
+- Prevented unselected left-side cards from supplying title or employer.
+- Added a deterministic LinkedIn-like fixture covering title, employer, location, work type, description, and reference.
+- Preserved SEEK, Indeed, generic-page, Schema.org, and explicit-click permission behaviour.
+- Passed the combined release gate with 104 unit tests, 96 integration tests, 3 browser journeys, JavaScript checks, and publish.
 
 ## Traceability
 
 - [Public GitHub issue #7](https://github.com/Chit-Thway/job-application-tracker-qa/issues/7)
 - [Live Job Application Tracker](https://myjobtracker.com.au/)
 
-This report is sanitized for public portfolio use and contains no credentials, private source code, or personal job-search data.
+This public report is sanitized and contains no credentials, private source code, personal job-search data, or complete third-party advertisements.

@@ -2,85 +2,64 @@
 
 [← Back to the reported bugs index](../README.md)
 
-| Field | Value |
-| --- | --- |
-| Status | Fixed |
-| Severity | Medium |
-| Priority | High |
-| Date reported | 24 August 2026 |
-| Area | Pasted-text importer |
+| Status | Severity | Priority | Reported | Area |
+| --- | --- | --- | --- | --- |
+| Fixed | Medium | High | 24 August 2026 | Pasted-text importer |
 
-## Summary
+## What happened
 
-The pasted-text importer handled tidy `Label: Value` examples but initially failed to extract useful metadata from realistic job-board content where the title, employer, location, salary, and deadline appeared as stacked unlabelled lines.
+The importer understood tidy `Label: Value` examples but missed useful information in realistic job-board text where the title, employer, location, salary, and deadline appeared as stacked lines.
 
-## Affected area
+## How to reproduce
 
-Pasted-text job advertisement importer and extraction review.
+**Environment:** Chrome on Windows, local ASP.NET Core application, verified test account.
 
-## Environment
-
-- Application: Job Application Tracker
-- Runtime: .NET / ASP.NET Core MVC
-- Browser: Chrome on Windows
-- Host: Local development environment
-
-## Preconditions
-
-1. Sign in with a verified test account.
-2. Open **Add application → Paste job text**.
-
-## Steps to reproduce
-
-1. Copy a realistic job advertisement containing a stacked role title, company, Australian location, salary, and application deadline.
-2. Paste the complete advertisement into the importer.
+1. Open **Add application → Paste job text**.
+2. Paste a realistic advertisement with an unlabelled stacked header.
 3. Select **Extract and review**.
 4. Inspect the suggested fields.
 
-## Expected result
+| Expected | Actual before the fix |
+| --- | --- |
+| Clearly supported values are suggested, while uncertain fields remain blank for review. | Most or all useful fields remain blank, forcing the user to retype information already present. |
 
-Clearly supported values such as role title, company, location, salary, and an explicit deadline are suggested. Uncertain fields remain blank for user review.
+## Visual
 
-## Actual result
+![Reconstructed comparison of the pasted source and blank extraction result](visual/reconstructed-extraction-comparison.svg)
 
-Most or all useful fields remain blank because the original extraction rules expect explicit labels.
+*Figure 1 — Reconstructed from a sanitized deterministic fixture. It illustrates the confirmed behaviour and is not presented as an original production screenshot.*
 
-## Impact
-
-The user must retype information that is visibly present, undermining the purpose of the importer.
-
-- **Severity:** Medium
-- **Priority:** High
-
-## Sanitized evidence
-
-The failure was reproduced using layouts shaped like:
+<details>
+<summary>View the sanitized reproduction input</summary>
 
 ```text
 2027 Computer Science Graduate Program - Cybersecurity
 Example Consulting
 Sydney NSW
 $70,000 - $80,000 a year
+No experience required
 ...
 Applications close on Sunday, 16 August.
 ```
 
-## Resolution
+</details>
 
-**Status: Fixed and verified.**
+## Why it mattered
 
-Deterministic heuristics were added for stacked job-board headers, Australian locations, salary formats, platform phrases, and explicit closing/apply-by sentences. The solution remains rule-based and does not call an AI service.
+The failure defeated the purpose of assisted entry and added avoidable manual work. It was rated **Medium severity** because users could still continue by typing the data themselves, and **High priority** because the defect affected the importer’s primary workflow.
 
-## Regression coverage
+## Resolution and verification
 
-- Synthetic SEEK-style and LinkedIn-style fixtures.
-- Uncertain values remain blank.
-- Existing labelled extraction continues to pass.
-- Full formatting, Release build, automated test, and publish gate completed.
+- Added deterministic heuristics for stacked headers, Australian locations, common salary formats, platform phrases, and explicit closing-date sentences.
+- Kept uncertain values blank instead of guessing.
+- Preserved existing labelled extraction behaviour.
+- Added synthetic SEEK-style and LinkedIn-style regression fixtures.
+- Completed the formatting, Release build, automated test, and publish gate.
+- The extractor remains rule-based and does not call an AI service.
 
 ## Traceability
 
 - [Public GitHub issue #1](https://github.com/Chit-Thway/job-application-tracker-qa/issues/1)
 - [Live Job Application Tracker](https://myjobtracker.com.au/)
 
-This report is sanitized for public portfolio use and contains no credentials, private source code, or personal job-search data.
+This public report is sanitized and contains no credentials, private source code, personal job-search data, or complete third-party advertisements.
