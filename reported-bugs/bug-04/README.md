@@ -2,81 +2,64 @@
 
 [← Back to the reported bugs index](../README.md)
 
-| Field | Value |
-| --- | --- |
-| Status | Fixed |
-| Severity | Medium |
-| Priority | High |
-| Date reported | 24 August 2026 |
-| Area | Networking / URL import |
+| Status | Severity | Priority | Reported | Area |
+| --- | --- | --- | --- | --- |
+| Fixed | Medium | High | 24 August 2026 | Networking / URL import |
 
-## Summary
+## What happened
 
-The safe URL importer could report a timeout for a public job page even when the same host was reachable quickly over IPv4.
+The importer tried validated network addresses sequentially, allowing an unreachable IPv6 route to consume the full timeout before a working IPv4 address could be attempted.
 
-## Affected area
+## How to reproduce
 
-Safe outbound HTTP connection handling for URL imports.
+**Environment:** Windows; public HTTPS job page; host resolving to IPv6 and IPv4; unavailable local IPv6 route.
 
-## Environment
-
-- Application: Job Application Tracker
-- Operating system: Windows
-- Network condition: Resolved IPv6 and IPv4 candidates; IPv6 route unavailable
-- Import target: Public HTTPS job page
-
-## Preconditions
-
-1. Sign in.
-2. Open **Add application → Import public link**.
-3. Use a host that resolves to both IPv6 and IPv4 while the local IPv6 route stalls.
-
-## Steps to reproduce
-
-1. Submit a valid public job URL.
-2. Wait for the safe importer.
-3. Observe the timeout fallback.
+1. Open **Add application → Import public link**.
+2. Submit a valid public job URL whose host resolves to IPv6 and IPv4.
+3. Observe the importer timeout.
 4. Request the same URL over IPv4 from the same machine.
 
-## Expected result
+| Expected | Actual before the fix |
+| --- | --- |
+| Reach the public site through the working address without allowing one stalled candidate to consume the operation timeout. | Timed out on IPv6 and never reached the working IPv4 candidate. |
 
-The importer reaches the public site through the working address without waiting for one stalled candidate to consume the entire operation timeout.
+## Visual
 
-## Actual result
+![Reconstructed comparison for Bug 04](visual/reconstructed-ipv6-fallback-comparison.svg)
 
-The first unreachable IPv6 address consumes the shared timeout before the working IPv4 address is attempted.
+*Reconstructed from a sanitized deterministic scenario. It illustrates the confirmed behaviour and is not presented as an original production screenshot.*
 
-## Impact
+<details>
+<summary>View the sanitized scenario shown in the visual</summary>
 
-Valid public job pages appear unavailable, forcing users back to manual entry.
+```text
+DNS returned two public addresses
+IPv6 candidate: validated
+IPv4 candidate: validated
+Local IPv6 route: unavailable
+Direct IPv4 request: HTTP 200
+Measured IPv4 response: ≈ 2.28 s
+```
 
-- **Severity:** Medium
-- **Priority:** High
+</details>
 
-## Technical evidence
+## Why it mattered
 
-A direct IPv4 request from the same machine returned HTTP 200 HTML in approximately 2.28 seconds, isolating the defect to address-selection behaviour rather than website availability.
+Reachable job pages appeared unavailable and forced users back to manual entry.
 
-## Root cause
+**Assessment:** Medium severity because manual entry remained available; High priority because a core import path failed for valid URLs.
 
-Already-validated DNS addresses were attempted sequentially under one timeout budget.
+## Resolution and verification
 
-## Resolution
-
-**Status: Fixed and verified.**
-
-Validated IPv6 and IPv4 candidates are interleaved and attempted with a short stagger. The first successful stream wins; unfinished sockets are cancelled and disposed.
-
-## Security and regression coverage
-
-- Deterministic stalled-IPv6/working-IPv4 regression test.
-- Private, loopback, link-local, and mixed public/private DNS results remain rejected.
-- Existing SSRF protections remain unchanged.
-- Locked restore, formatting, zero-warning Release build, 92 automated tests, and Release publish passed.
+- Interleaved already-validated IPv6 and IPv4 candidates.
+- Introduced a 250 ms stagger and first-success connection strategy.
+- Cancelled and disposed unfinished sockets.
+- Preserved private, loopback, link-local, mixed-DNS, and SSRF protections.
+- Passed the deterministic stalled-IPv6/working-IPv4 test and the full 92-test release gate.
 
 ## Traceability
 
 - [Public GitHub issue #4](https://github.com/Chit-Thway/job-application-tracker-qa/issues/4)
 - [Live Job Application Tracker](https://myjobtracker.com.au/)
 
-This report is sanitized for public portfolio use and contains no credentials, private source code, or personal job-search data.
+This public report is sanitized and contains no credentials, private source code, personal job-search data, or complete third-party advertisements.
