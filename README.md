@@ -4,9 +4,9 @@ A public quality-assurance portfolio documenting real defects discovered while m
 
 ## Live project
 
-- **Application:** [Open Job Application Tracker](https://chit-thway-job-tracker-b9bpfvb5csccb5hb.australiaeast-01.azurewebsites.net/)
-- **Public read-only demo:** [Explore the synthetic dashboard](https://chit-thway-job-tracker-b9bpfvb5csccb5hb.australiaeast-01.azurewebsites.net/demo)
-- **Extension privacy information:** [Review the browser-extension privacy page](https://chit-thway-job-tracker-b9bpfvb5csccb5hb.australiaeast-01.azurewebsites.net/extension/privacy)
+- **Application:** [Open Job Application Tracker](https://myjobtracker.com.au/)
+- **Public read-only demo:** [Explore the synthetic dashboard](https://myjobtracker.com.au/demo)
+- **Extension privacy information:** [Review the browser-extension privacy page](https://myjobtracker.com.au/extension/privacy)
 
 The public demo uses fictional in-memory records and does not expose authenticated user data. The private tracker requires an invited, verified account.
 
@@ -29,8 +29,8 @@ The application uses ASP.NET Core MVC on .NET, PostgreSQL through Supabase, and 
 
 | Status | Count | Meaning |
 | --- | ---: | --- |
-| Fixed | 9 | The defect has been corrected; individual reports contain their available verification evidence. |
-| Open | 1 | The LinkedIn extension fix awaits public release verification. |
+| Fixed | 10 | The defects have been corrected; individual reports contain their available verification evidence. |
+| Open | 0 | No documented defect in this report set remains unresolved. |
 | Total documented defects | 10 | All reports originated from hands-on acceptance or exploratory testing. |
 
 ## Defect register
@@ -43,7 +43,7 @@ The application uses ASP.NET Core MVC on .NET, PostgreSQL through Supabase, and 
 | [#4](../../issues/4) | URL import timed out before IPv4 fallback | Networking | Fixed |
 | [#5](../../issues/5) | SEEK page chrome was extracted instead of job details | URL importer | Fixed |
 | [#6](../../issues/6) | Evidence text displayed corrupted punctuation | Encoding/UI | Fixed |
-| [#7](../../issues/7) | LinkedIn focused job details are missed | Browser extension | Release verification pending |
+| [#7](../../issues/7) | LinkedIn focused job details are missed | Browser extension | Fixed |
 | [#8](../../issues/8) | Mobile navigation covers content and cannot be dismissed reliably | Responsive UI | Fixed |
 | [#9](../../issues/9) | Indeed capture selected the page heading instead of the focused job | Browser extension | Fixed |
 | [#10](../../issues/10) | Extraction review creates duplicate companies instead of offering an existing match | Company matching | Fixed |
