@@ -68,7 +68,7 @@ The selected job is rendered inside LinkedIn’s dedicated focused-detail contai
 - Keep explicit-click/no-remote-request permissions unchanged.
 - Complete manual retest and the full quality gate before closing.
 
-## Implemented resolution
+## Resolution
 
 The extension now anchors extraction to LinkedIn’s focused job-detail container instead of the left results list. Automated coverage verifies the focused title, employer, location, work type, description, and current job reference while preserving the explicit-click permission model.
 
