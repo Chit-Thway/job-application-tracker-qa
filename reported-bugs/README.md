@@ -24,7 +24,7 @@ Each report uses the same practical workflow:
 1. Establish the environment and preconditions.
 2. Reproduce the defect using numbered steps.
 3. Compare the expected and actual results.
-4. assess severity, priority, and user impact.
+4. Assess severity, priority, and user impact.
 5. Record the implemented resolution.
 6. Confirm regression coverage and closure.
 
