@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="920" viewBox="0 0 1440 920" role="img" aria-labelledby="title desc">
+<title id="title">Bug 04 reconstructed visual</title>
+<desc id="desc">Sanitized visual comparing the confirmed behavior before the fix with the expected result.</desc>
+<defs><filter id="s" x="-10%" y="-10%" width="120%" height="130%"><feDropShadow dx="0" dy="8" stdDeviation="14" flood-color="#0f172a" flood-opacity=".12"/></filter>
+<style>.sans{font-family:Inter,"Segoe UI",Arial,sans-serif}.mono{font-family:"Cascadia Code",Consolas,monospace}.tag{font-size:18px;font-weight:700;letter-spacing:2px}.line{font-size:21px;fill:#e5edff}.obs{font-size:22px;fill:#7f1d1d}.exp{font-size:20px;fill:#065f46}.strong{font-weight:750}.muted{fill:#64748b}</style></defs>
+<rect width="1440" height="920" fill="#f4f7ff"/><circle cx="1325" cy="70" r="180" fill="#dbe7ff" opacity=".7"/><circle cx="70" cy="900" r="180" fill="#dcfce7" opacity=".55"/>
+<g class="sans"><rect x="60" y="46" width="266" height="38" rx="19" fill="#fef3c7"/><text x="82" y="72" class="tag" fill="#92400e">RECONSTRUCTED VISUAL</text>
+<text x="60" y="126" font-size="36" font-weight="800" fill="#111827">Bug 04 · Working IPv4 path never reached</text><text x="60" y="158" font-size="20" class="muted">Sanitized reproduction of the confirmed pre-fix behaviour.</text>
+<g filter="url(#s)"><rect x="60" y="194" width="610" height="520" rx="24" fill="#111b38"/><rect x="700" y="194" width="680" height="520" rx="24" fill="#fff"/></g>
+<text x="92" y="240" class="tag" fill="#9fb5ff">TEST CONTEXT</text><text x="92" y="278" font-size="27" font-weight="750" fill="#fff">Sanitized reproduction</text><line x1="92" y1="304" x2="638" y2="304" stroke="#34436b"/><text x="92" y="352" class="mono line">DNS returned two public addresses</text>
+<text x="92" y="395" class="mono line">IPv6 candidate: validated</text>
+<text x="92" y="438" class="mono line">IPv4 candidate: validated</text>
+<text x="92" y="481" class="mono line">Local IPv6 route: unavailable</text>
+<text x="92" y="524" class="mono line">Direct IPv4 request: HTTP 200</text>
+<text x="92" y="567" class="mono line">Measured IPv4 response: ≈ 2.28 s</text>
+<text x="738" y="240" class="tag" fill="#dc2626">OBSERVED BEFORE FIX</text><text x="738" y="278" font-size="27" font-weight="750" fill="#111827">Incorrect result</text><line x1="738" y1="304" x2="1342" y2="304" stroke="#dbe3f0"/>
+<rect x="738" y="334" width="604" height="314" rx="18" fill="#fff7f7" stroke="#fecaca" stroke-width="2"/><text x="760" y="382" class="obs">1. Attempt IPv6</text>
+<text x="760" y="430" class="obs">2. Wait for full timeout</text>
+<text x="760" y="478" class="obs">3. Import fails</text>
+<text x="760" y="526" class="obs">IPv4 is never attempted in time</text>
+<rect x="60" y="752" width="1320" height="124" rx="24" fill="#eaf8ef" stroke="#86d7a5" stroke-width="2"/><text x="92" y="784" class="tag" fill="#047857">EXPECTED RESULT</text><text x="92" y="803" class="exp strong">Interleave IPv6 and IPv4 candidates</text>
+<text x="92" y="837" class="exp">Start attempts with a short stagger</text>
+<text x="92" y="871" class="exp">First successful safe stream wins</text>
+<text x="60" y="906" font-size="16" class="muted">Reconstructed from a sanitized deterministic scenario. Not a production screenshot; no personal data is shown.</text></g></svg>
