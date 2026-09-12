@@ -24,7 +24,7 @@ Each bug folder contains one focused report with:
 - [Live application](https://myjobtracker.com.au/)
 - [Public read-only demo](https://myjobtracker.com.au/demo)
 - [QA strategy](docs/QA-STRATEGY.md)
-- [GitHub issue register](../../issues)
+- [GitHub issue register](https://github.com/Chit-Thway/job-application-tracker-qa/issues)
 
 All reports are documentation-only. They exclude credentials, personal job-search information, production data, private source code, and full third-party job advertisements.
 
