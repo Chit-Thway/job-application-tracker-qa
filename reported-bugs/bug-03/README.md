@@ -2,80 +2,63 @@
 
 [← Back to the reported bugs index](../README.md)
 
-| Field | Value |
+| Status | Severity | Priority | Reported | Area |
+| --- | --- | --- | --- | --- |
+| Fixed | Medium | High | 24 August 2026 | Company extraction |
+
+## What happened
+
+When a posting omitted the employer line, the stacked-header heuristic treated the next metadata label—Location—as the company name.
+
+## How to reproduce
+
+**Environment:** Chrome on Windows; pasted-text workflow; verified test account.
+
+1. Open **Add application → Paste job text**.
+2. Paste a posting whose title is immediately followed by `Location` and an Australian location.
+3. Select **Extract and review**.
+4. Inspect **Company name**.
+
+| Expected | Actual before the fix |
 | --- | --- |
-| Status | Fixed |
-| Severity | Medium |
-| Priority | High |
-| Date reported | 24 August 2026 |
-| Area | Company extraction |
+| Leave Company name blank because the source provides no reliable employer evidence. | Suggested `Location` as the company name. |
 
-## Summary
+## Visual
 
-When a copied posting omits the employer line and places the `Location` heading directly below the job title, the extraction review initially suggested `Location` as the company name.
+![Reconstructed comparison for Bug 03](visual/reconstructed-company-heading-comparison.svg)
 
-## Affected area
+*Reconstructed from a sanitized deterministic scenario. It illustrates the confirmed behaviour and is not presented as an original production screenshot.*
 
-Company inference in the pasted-text importer.
+<details>
+<summary>View the sanitized scenario shown in the visual</summary>
 
-## Environment
+```text
+Graduate Program (Feb 2027)
+Location
+Adelaide, Brisbane,
+Melbourne, Sydney
+…
+No employer line is present
+```
 
-- Application: Job Application Tracker
-- Browser: Chrome on Windows
-- Host: Local development environment
+</details>
 
-## Preconditions
+## Why it mattered
 
-1. Sign in.
-2. Open **Add application → Paste job text**.
+Confirming the draft could create a permanent company named Location and damage company-level history.
 
-## Steps to reproduce
+**Assessment:** Medium severity because the value was reviewable; High priority because confirmation created lasting bad data.
 
-1. Paste text beginning with:
+## Resolution and verification
 
-   ```text
-   Graduate Program (Feb 2027)
-   Location
-   Adelaide, Brisbane, Melbourne, Sydney
-   ```
-
-2. Select **Extract and review**.
-3. Inspect **Company name**.
-
-## Expected result
-
-Company name remains blank because the source provides no reliable employer evidence. The Location heading identifies only the following location value.
-
-## Actual result
-
-Company name is suggested as `Location`, with evidence claiming it was inferred from the position below the title.
-
-## Impact
-
-Confirming the draft can create an invalid persistent company named `Location`, producing lasting data-quality problems.
-
-- **Severity:** Medium
-- **Priority:** High
-
-## Root cause
-
-The stacked-header heuristic considered the line below the title a possible employer but did not exclude known metadata headings.
-
-## Resolution
-
-**Status: Fixed and verified.**
-
-Known metadata headings—including Location, Salary, Work type, and related labels—are no longer eligible company names.
-
-## Regression coverage
-
-- A title followed immediately by a known field heading leaves company blank.
-- Confirmation cannot create a company from a metadata label.
-- Valid stacked employer names continue to be extracted.
+- Excluded known metadata headings from company-name candidates.
+- Covered Location, Salary, Work type, and related labels.
+- Added regression tests for missing employers and confirmation safety.
+- Confirmed valid stacked employer names still extract correctly.
 
 ## Traceability
 
 - [Public GitHub issue #3](https://github.com/Chit-Thway/job-application-tracker-qa/issues/3)
 - [Live Job Application Tracker](https://myjobtracker.com.au/)
 
-This report is sanitized for public portfolio use and contains no credentials, private source code, or personal job-search data.
+This public report is sanitized and contains no credentials, private source code, personal job-search data, or complete third-party advertisements.
