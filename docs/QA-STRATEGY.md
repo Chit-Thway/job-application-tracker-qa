@@ -111,16 +111,19 @@ A completed defect requires:
 - publish/package verification where applicable;
 - manual acceptance by the tester.
 
-## Evidence and privacy
+## Visuals, evidence and privacy
 
-Preferred evidence, in order:
+Preferred supporting material, in order:
 
-1. sanitized screenshot or short recording;
-2. minimal deterministic HTML/text fixture;
-3. exact error or evidence message;
-4. repeatable environment and timing observation.
+1. an original sanitized screenshot or short recording;
+2. a minimal deterministic HTML or text fixture;
+3. an exact error or evidence message;
+4. a repeatable environment or timing observation;
+5. a clearly labelled reconstructed visual when no suitable original image exists.
 
-Evidence is omitted rather than published when it could expose credentials, personal information, private code, inaccessible repository links, or copyrighted job advertisements in full. Synthetic evidence is clearly described and is never presented as an original screenshot.
+Every visual states whether it is an original sanitized screenshot or a reconstruction. Reconstructed visuals explain a confirmed scenario; they are never presented as historical screen captures and remain paired with reproducible steps and an explicit actual result.
+
+Supporting material is omitted rather than published when it could expose credentials, personal information, private code, inaccessible repository links, or copyrighted job advertisements in full.
 
 ## Traceability
 
