@@ -39,6 +39,13 @@ body:
     validations:
       required: true
 
+  - type: input
+    id: observed-date
+    attributes:
+      label: Date observed
+      description: The date the behaviour was reproduced, or the closest known date.
+      placeholder: 24 August 2026
+
   - type: textarea
     id: preconditions
     attributes:
@@ -100,8 +107,8 @@ body:
   - type: textarea
     id: evidence
     attributes:
-      label: Sanitized evidence
-      description: Attach a redacted screenshot/video or include an exact error message or minimal text fixture.
+      label: Sanitized evidence or visual
+      description: Attach an original redacted screenshot or recording, or include an exact error message or minimal fixture. Clearly label any reconstructed visual and base it on the recorded behaviour.
 
   - type: textarea
     id: regression
