@@ -23,9 +23,9 @@ The importer understood tidy `Label: Value` examples but missed useful informati
 | --- | --- |
 | Clearly supported values are suggested, while uncertain fields remain blank for review. | Most or all useful fields remain blank, forcing the user to retype information already present. |
 
-## Evidence
+## Visual
 
-![Reconstructed comparison of the pasted source and blank extraction result](evidence/reconstructed-extraction-comparison.svg)
+![Reconstructed comparison of the pasted source and blank extraction result](visual/reconstructed-extraction-comparison.svg)
 
 *Figure 1 — Reconstructed from a sanitized deterministic fixture. It illustrates the confirmed behaviour and is not presented as an original production screenshot.*
 
